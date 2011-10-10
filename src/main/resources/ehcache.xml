@@ -1,0 +1,20 @@
+<ehcache
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="ehcache.xsd"
+    maxBytesLocalHeap="100M">
+
+    <terracottaConfig url="${terracottaConfigUrl}" />
+
+    <defaultCache
+        eternal="false"
+        timeToLiveSeconds="3600"
+        timeToIdleSeconds="0" />
+
+    <cache name="BusinessCache"
+           eternal="false"
+           timeToLiveSeconds="3600"
+           timeToIdleSeconds="0">
+        <terracotta />
+    </cache>
+
+</ehcache>
