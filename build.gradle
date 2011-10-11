@@ -21,10 +21,28 @@ repositories {
   mavenRepo urls: ["http://www.terracotta.org/download/reflector/releases", "http://www.terracotta.org/download/reflector/snapshots","https://oss.sonatype.org/content/repositories/snapshots"]
 }
 
-task startBatch << {
+task startBatch0 << {
   ant.java(classname: 'com.darinpope.BulkLoadMain', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
     jvmarg(value: "-DbatchLoad=true")
-    jvmarg(value: "-DloaderFile=fred.txt")
+    jvmarg(value: "-DloaderFile=0-testdata.txt")
+    jvmarg(value: "-DterracottaConfigUrl=${terracottaConfigUrl}")
+    jvmarg(value: "-Dcom.tc.productkey.path=${terracottaLicenseKey}")
+  }
+}
+
+task startBatch1 << {
+  ant.java(classname: 'com.darinpope.BulkLoadMain', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
+    jvmarg(value: "-DbatchLoad=true")
+    jvmarg(value: "-DloaderFile=1-testdata.txt")
+    jvmarg(value: "-DterracottaConfigUrl=${terracottaConfigUrl}")
+    jvmarg(value: "-Dcom.tc.productkey.path=${terracottaLicenseKey}")
+  }
+}
+
+task startBatch2 << {
+  ant.java(classname: 'com.darinpope.BulkLoadMain', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
+    jvmarg(value: "-DbatchLoad=true")
+    jvmarg(value: "-DloaderFile=2-testdata.txt")
     jvmarg(value: "-DterracottaConfigUrl=${terracottaConfigUrl}")
     jvmarg(value: "-Dcom.tc.productkey.path=${terracottaLicenseKey}")
   }
@@ -33,7 +51,7 @@ task startBatch << {
 task startNonBatch << {
   ant.java(classname: 'com.darinpope.BulkLoadMain', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
     jvmarg(value: "-DbatchLoad=false")
-    jvmarg(value: "-DloaderFile=fred.txt")
+    jvmarg(value: "-DloaderFile=testdata.txt")
     jvmarg(value: "-DterracottaConfigUrl=${terracottaConfigUrl}")
     jvmarg(value: "-Dcom.tc.productkey.path=${terracottaLicenseKey}")
   }
@@ -43,6 +61,7 @@ task fileGenerator << {
   ant.java(classname: 'com.darinpope.FileGenerator', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
     jvmarg(value: "-Dfilename=testdata.txt")
     jvmarg(value: "-DrowCount=500000")
+    jvmarg(value: "-DnumberOfFiles=3")
   }
 }
 
