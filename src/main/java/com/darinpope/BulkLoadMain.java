@@ -7,7 +7,8 @@ import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,12 +18,17 @@ public class BulkLoadMain {
     private static boolean batchLoad = false;
     private static String loaderFile = "business.txt";
     private static int batchSize = 1024;
+    private static String cacheName = "StandaloneCache";
 
     public static void main(String[] args) throws Exception {
         batchLoad = Boolean.valueOf(System.getProperty("batchLoad"));
         String tempLoaderFile = System.getProperty("loaderFile");
         if(StringUtils.isNotBlank(tempLoaderFile)) {
             loaderFile = tempLoaderFile;
+        }
+        String tempCacheName = System.getProperty("cacheName");
+        if(StringUtils.isNotBlank(tempCacheName)) {
+            cacheName = tempCacheName;
         }
         String tempBatchSize = System.getProperty("batchSize");
         if(StringUtils.isNotBlank(tempBatchSize)) {
@@ -34,12 +40,16 @@ public class BulkLoadMain {
 
     public BulkLoadMain() throws Exception {
         CacheManager cacheManager = CacheManager.getInstance();
-        Cache cache = cacheManager.getCache("BusinessCache");
+        Cache cache = cacheManager.getCache(cacheName);
 
         DisplayCacheSize(cache);
-        cache.setNodeBulkLoadEnabled(true);
+        if(cache.isTerracottaClustered()) {
+            cache.setNodeBulkLoadEnabled(true);
+        }
         LoadBusinessRecordsBatch(cache);
-        cache.setNodeBulkLoadEnabled(false);
+        if(cache.isTerracottaClustered()) {
+            cache.setNodeBulkLoadEnabled(false);
+        }
         DisplayCacheSize(cache);
         cacheManager.shutdown();
     }

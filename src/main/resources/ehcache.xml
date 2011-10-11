@@ -1,8 +1,9 @@
 <ehcache
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="ehcache.xsd"
-    maxBytesLocalHeap="100M">
+    maxBytesLocalHeap="1g" maxBytesLocalOffHeap="3g" maxBytesLocalDisk="100g">
 
+    <diskStore path="java.io.tmpdir"/>
     <terracottaConfig url="${terracottaConfigUrl}" />
 
     <defaultCache
@@ -10,11 +11,16 @@
         timeToLiveSeconds="3600"
         timeToIdleSeconds="0" />
 
-    <cache name="BusinessCache"
+    <cache name="DistributedCache"
            eternal="false"
            timeToLiveSeconds="3600"
            timeToIdleSeconds="0">
-        <terracotta />
+        <terracotta consistency="eventual" />
     </cache>
+
+    <cache name="StandaloneCache"
+           eternal="false"
+           timeToLiveSeconds="3600"
+           timeToIdleSeconds="0" />
 
 </ehcache>

@@ -10,11 +10,13 @@ public class FileGenerator {
     private static String filename;
     private static int rowCount;
     private static int numberOfFiles;
+    private static String filePath;
 
     public static void main(String[] args) throws Exception {
         filename = System.getProperty("filename");
         rowCount = Integer.valueOf(System.getProperty("rowCount")).intValue();
         numberOfFiles = Integer.valueOf(System.getProperty("numberOfFiles")).intValue();
+        filePath = System.getProperty("filePath");
         new FileGenerator();
     }
 
@@ -22,6 +24,9 @@ public class FileGenerator {
         int totalElements = 1;
         for(int j=0;j<numberOfFiles;j++) {
             String newFileName = j + "-" + filename;
+            if(StringUtils.isNotBlank(filePath)) {
+                newFileName = filePath + newFileName;
+            }
             CSVWriter writer = new CSVWriter(new FileWriter(newFileName),'\t');
             try {
                 for(int i=0;i<rowCount;i++) {
