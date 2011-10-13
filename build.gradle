@@ -7,11 +7,7 @@ slf4jVersion = "1.6.1"
 ehcacheVersion = "2.5.0-SNAPSHOT"
 terracottaToolkitVersion = "1.4"
 terracottaCommonVersion = "4.0.0-SNAPSHOT"
-/*
-ehcacheVersion = "2.4.5"
-terracottaToolkitVersion = "1.3"
-terracottaCommonVersion = "3.2.0"
-*/
+
 terracottaLicenseKey = "/Users/dpope/Tools/Terracotta/terracotta-license.key"
 terracottaConfigUrl = "localhost:9510"
 
@@ -30,24 +26,6 @@ task startBatch0 << {
   }
 }
 
-task startBatch1 << {
-  ant.java(classname: 'com.darinpope.BulkLoadMain', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
-    jvmarg(value: "-DbatchLoad=true")
-    jvmarg(value: "-DloaderFile=1-testdata.txt")
-    jvmarg(value: "-DterracottaConfigUrl=${terracottaConfigUrl}")
-    jvmarg(value: "-Dcom.tc.productkey.path=${terracottaLicenseKey}")
-  }
-}
-
-task startBatch2 << {
-  ant.java(classname: 'com.darinpope.BulkLoadMain', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
-    jvmarg(value: "-DbatchLoad=true")
-    jvmarg(value: "-DloaderFile=2-testdata.txt")
-    jvmarg(value: "-DterracottaConfigUrl=${terracottaConfigUrl}")
-    jvmarg(value: "-Dcom.tc.productkey.path=${terracottaLicenseKey}")
-  }
-}
-
 task startNonBatch0 << {
   ant.java(classname: 'com.darinpope.BulkLoadMain', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
     jvmarg(value: "-DbatchLoad=false")
@@ -57,30 +35,11 @@ task startNonBatch0 << {
   }
 }
 
-task startNonBatch1 << {
-  ant.java(classname: 'com.darinpope.BulkLoadMain', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
-    jvmarg(value: "-DbatchLoad=false")
-    jvmarg(value: "-DloaderFile=1-testdata.txt")
-    jvmarg(value: "-DterracottaConfigUrl=${terracottaConfigUrl}")
-    jvmarg(value: "-Dcom.tc.productkey.path=${terracottaLicenseKey}")
-  }
-}
-
-task startNonBatch2 << {
-  ant.java(classname: 'com.darinpope.BulkLoadMain', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
-    jvmarg(value: "-DbatchLoad=false")
-    jvmarg(value: "-DloaderFile=2-testdata.txt")
-    jvmarg(value: "-DterracottaConfigUrl=${terracottaConfigUrl}")
-    jvmarg(value: "-Dcom.tc.productkey.path=${terracottaLicenseKey}")
-  }
-}
-
 task fileGenerator << {
   ant.java(classname: 'com.darinpope.FileGenerator', fork: true, classpath: "${sourceSets.main.runtimeClasspath.asPath}") {
-    jvmarg(value: "-DfilePath=/export1/dev/dpope/")
     jvmarg(value: "-Dfilename=testdata.txt")
-    jvmarg(value: "-DrowCount=500000")
-    jvmarg(value: "-DnumberOfFiles=3")
+    jvmarg(value: "-DrowCount=300000")
+    jvmarg(value: "-DnumberOfFiles=1")
   }
 }
 

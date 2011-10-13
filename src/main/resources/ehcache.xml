@@ -1,7 +1,7 @@
 <ehcache
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="ehcache.xsd"
-    maxBytesLocalHeap="1g" maxBytesLocalOffHeap="3g" maxBytesLocalDisk="100g">
+    maxBytesLocalHeap="256m">
 
     <diskStore path="java.io.tmpdir"/>
     <terracottaConfig url="${terracottaConfigUrl}" />
