@@ -4,3 +4,5 @@ build/
 *.ipr
 *.iws
 logs-*/
+*.log
+*-testdata.txt
